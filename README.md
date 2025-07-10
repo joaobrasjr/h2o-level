@@ -1,57 +1,68 @@
-Sistema H2O Level
+# H2O Level - Sistema de Monitoramento de Níveis de Água
 
-O H2O Level é um sistema de monitoramento de níveis de água em reservatórios domésticos.
+![Badge em Desenvolvimento](https://img.shields.io/badge/Status-Concluído-brightgreen)
 
-O sistema foi desenvolvido em Node.js e React, como Trabalho de Conclusão de Curso (TCC) de Análise e Desenvolvimento de Sistemas, no IFBA.
-Foi concebido para ser executado no localhost e permitir o monitoramento de um reservatório por residência.
+## 📝 Descrição
 
-Além do Sistema, serão necessários os seguintes hardwares, para execução do projeto:
+O **H2O Level** é um sistema de monitoramento de níveis de água em reservatórios domésticos, desenvolvido como Trabalho de Conclusão de Curso (TCC) de Análise e Desenvolvimento de Sistemas no IFBA.
 
-1 Sensor Ultrassônico HC-SR04.
-1 Microcontrolador ESP32.
-1 Cabo USB-C para alimentação e/ou comunicação com a ArduinoIDE.
-4 Jumpers fêmea-fêmea.
+### 💡 Funcionalidades Principais  
+✔ Monitoramento em **tempo real** do volume e porcentagem de água  
+✔ Histórico das **últimas 100 medições** com visualização em gráfico  
+✔ Cálculo de **médias de consumo** (dia atual, 7 dias e 30 dias)  
+✔ Alertas configuráveis por **e-mail**  
+✔ Interface web responsiva  
 
-Instruções de uso:
+## 🛠️ Tecnologias Utilizadas
+- **Backend**: Node.js
+- **Frontend**: React
+- **Hardware**: ESP32 + Sensor Ultrassônico HC-SR04
 
-1) Faça o download do diretório e extraia o conteúdo em qualquer diretório do computador.
-2) Carregue o diretório num editor de código, como por exemplo o VS Code.
-3) Após isso, faça as seguintes modificações nos arquivos listados:
+## 📋 Requisitos de Hardware
+Para execução do projeto, serão necessários:
+- 1 Sensor Ultrassônico HC-SR04
+- 1 Microcontrolador ESP32
+- 1 Cabo USB-C para alimentação/comunicação
+- 4 Jumpers fêmea-fêmea
 
-Pasta backend
+## 🚀 Instalação e Configuração
 
-measurrementController.js
-Linha 17 - Caso não queira deixar o sensor rente ao limite do reservatório, substitua o zero pela diferença de distância do sensor ao limite do reservatório.
+### 1. Pré-requisitos
+- Node.js instalado
+- Arduino IDE (para programação do ESP32)
+- Editor de código (VS Code recomendado)
 
-emailSender.js
-Linhas 8 e 9 - Caso deseje receber os alertas de nível do reservatório, por e-mail, altere as linhas inserindo seu e-mail e senha (para melhorar a segurança e não expor a sua senha, crie uma senha de app. Esta senha servirá apenas para o sistema acessar o seu e-mail, sem precisar fornecer sua senha real).
+### 2. Configuração Inicial
+1. Faça o download do projeto e extraia em um diretório local.
+2. Abra o projeto no editor de código.
 
-Pasta esp32_prog
+### 3. Configurações Importantes
 
-esp32_prog.ino
-Linha 5 - Insira o nome da sua rede Wi-Fi.
-Linha 6 - Insira a senha da sua rede Wi-Fi.
-Linha 9 - Caso queira acessar o Sistema por outro dispositivo conectado a rede Wi-Fi, substitua "localhost" pelo ip do computador que está rodando o servidor (A máquina onde você descompactou a pasta dos arquivos).
-Linha 12 - Caso não use o pino 4 do ESP32 para conectar o pino “Trigger” do sensor, altere para o número do pino escolhido.
-Linha 13 - Caso não use o pino 2 do ESP32 para conectar o pino “Echo” do sensor, altere para o número do pino escolhido.
-Linha 44 - O sensor está configurado para realizar medições a cada 5 min. Para alterar, basta adicionar ou subtrair, ao valor presente, 60000, que equivale a 1 minuto.
-Linha 75 - Substitua "SEU_TANK_ID" pelo id do reservatório, disponível no banco de dados, logo após criar o reservatório, após inicializar o Sistema.
+#### Backend (`/backend`)
+- `measurementController.js`: Linha 17 - Ajuste a diferença de distância do sensor, substituindo o zero, para o sensor não ficar rente ao limite máximo do reservatório, caso necessário. 
+- `emailSender.js`: Linhas 8-9 - Configure e-mail e senha para alertas, caso deseje recebê-los. Uma outra alternativa é criar uma senha de app, para o sistema acessar o e-mail, sem a necessidade de informar a senha real.
 
-Pasta frontend
+#### ESP32 (`/esp32_prog/esp32_prog.ino`)
+- Linhas 5-6: Credenciais WiFi
+- Linha 9: IP do servidor (substitua "localhost" pelo ip do servidor, caso queira que outros dispositivos da rede acessem o sistema).
+- Linhas 12-13: Pinos do sensor (caso não siga o mesmo esquema, devem ser alterados para os pinos escolhidos).
+- Linha 44: Intervalo de medição (padrão: 5 minutos). Se desejar aumentar ou diminuir, cada 1 minuto equivale a 60000.
+- Linha 75: Substitua "SEU_TANK_ID" pelo id do reservatório, disponível no banco de dados, logo após criar o reservatório, após inicializar o Sistema.
 
-ConsumptionAverage.js
-Linha 61 - Altere 3.0 pela capacidade, em litros, do seu reservatório.
+#### Frontend (`/frontend`)
+- `ConsumptionAverage.js`: Linha 61 - Altere 3.0 pela capacidade, em litros, do seu reservatório.
+- `authService.js`, `measurementService.js`, `tankService.js`: Linha 1 - IP do servidor (substitua "localhost" pelo ip do servidor, caso queira que outros dispositivos da rede acessem o sistema).
 
-authService.js
-measurementService.js
-tankService.js
-Nas linhas 1 de todos esses arquivos, caso deseje acessar o Sistema por outros dispositivos na rede, substitua "localhost" pelo ip do computador que está rodando o servidor (A máquina onde você descompactou a pasta dos arquivos).
+### 4. Execução
+1. Programe o ESP32 com o arquivo `esp32_prog.ino` via Arduino IDE
+2. No editor de código, abra dois terminais (backend e frontend)
+3. Em cada terminal, execute:
+   ```bash
+   npm install
+   npm start
+4. Aguarde alguns instantes e o Sistema será carregado e exibido no navegador principal.
 
-4) esp32_prog deve ser inserido no microcontrolador ESP32 através de uma IDE, como a ArduinoIDE.
-5) No VS Code ou outro editor de código, abra dois terminais: um selecionando a pasta backend e outro, na frontend.
-6) Digite em ambos os terminais o comando "npm install". Após inserir o comando, sem as aspas, e clicar em Enter, todas as dependências serão instaladas para o Backend e Frontend.
-7) Digite "npm start", em ambos os terminais, para executar o servidor backend e o frontend. Aguarde alguns instantes e o Sistema será carregado e exibido no navegador principal.
+### 🙌 Agradecimentos
+Muito obrigado por utilizar o H2O Level! O Sistema foi desenvolvido com muita dedicação, para facilitar o monitoramento de reservatórios domésticos e oferecer uma alternativa gratuita para quem necessita.
 
-O Sistema possibilita o monitoramento do reservatório em tempo real, exibindo o volume total, o volume atual e a porcentagem do reservatório. Também permite visualizar o histórico das 100 últimas medições e a exibição destas num gráfico. Possibilita também o acesso às médias de consumo do dia atual, últimos 7 dias e últimos 30 dias.
-
-Muito obrigado por usar o H2O Level e espero que ele supra a sua necessidade!
+Dúvidas ou sugestões? Entre em contato!
